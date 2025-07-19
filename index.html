@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+
+  <title>Editor de Currículo</title>
+
+  <script src="https://unpkg.com/html2canvas@latest/dist/html2canvas.min.js"></script>
+  <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
+  <script src="script.js" defer></script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="theme-light">
+  <aside id="sidebar">
+    <div class="logo" title="Personalizar Tema">SV</div>
+    <ul id="sidebar-actions" class="sidebar-actions">
+      <!--JS-->
+    </ul>
+  </aside>
+
+  <header id="mobile-header">
+    <div class="logo">SV</div>
+    <div id="mobile-actions" class="mobile-actions">
+      <!--JS-->
+    </div>
+  </header>
+
+  <main>
+    <div id="page-container">
+      <div id="page" class="a4-page">
+        <resume-block>
+          <header>
+            <h1 contenteditable="true">SEU NOME COMPLETO</h1>
+            <p contenteditable="true">
+              Cargo Almejado | 
+              <a href="mailto:seuemail@dominio.com">seuemail@dominio.com</a>
+              | (XX) 99999-8888
+            </p>
+          </header>
+        </resume-block>
+
+        <resume-block>
+          <h2 contenteditable="true">Resumo Profissional</h2>
+          <p contenteditable="true">
+            Insira aqui um parágrafo conciso que descreve suas principais qualificações, experiências e objetivos de carreira. Destaque o que você pode oferecer à empresa.
+          </p>
+        </resume-block>
+
+        <resume-block>
+          <h2 contenteditable="true">Experiência</h2>
+          <div class="job" contenteditable="true">
+            <h3>Nome da Empresa Mais Recente - Sua Cidade</h3>
+            <p><strong>Seu Cargo</strong> | Janeiro 2020 - Presente</p>
+            <ul>
+              <li>
+                Descreva sua principal responsabilidade e o impacto que ela gerou. Use dados e números para quantificar suas conquistas.
+              </li>
+            </ul>
+          </div>
+        </resume-block>
+
+        <resume-block>
+          <h2 contenteditable="true">Formação & Habilidades</h2>
+          <div class="two-columns">
+            <div class="column" contenteditable="true">
+              <h3>Formação Acadêmica</h3>
+              <p><strong>Nome da Instituição</strong>, Graduação em [Seu Curso], 2019</p>
+            </div>
+            <div class="column" contenteditable="true">
+              <h3>Principais Habilidades</h3>
+              <p>
+                Comunicação, Gestão de Projetos, Análise de Dados, Pacote Office, Metodologias Ágeis.
+              </p>
+            </div>
+          </div>
+        </resume-block>
+      </div>
+
+      <div id="page-overflow-warning">
+        ATENÇÃO! O conteúdo excede o limite da página!
+      </div>
+    </div>
+  </main>
+
+  <div id="context-menu" class="menu"></div>
+
+  <div id="info-modal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Obrigado por usar Seu Vitae!</h2>
+        <button class="close-modal-btn">×</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="theme-customizer" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Aparência</h2>
+        <button class="close-modal-btn">×</button>
+      </div>
+
+      <div class="customizer-section-title">Temas</div>
+      <div class="theme-selector">
+        <div class="theme-swatch" data-theme="light">
+          <div class="swatch-preview" style="background-color: #F4F6F9;">
+            <div style="background-color: #E5E7EB;"></div>
+            <div style="background-color: #FFFFFF;"></div>
+          </div>
+          <p>Claro</p>
+        </div>
+
+        <div class="theme-swatch" data-theme="dark">
+          <div class="swatch-preview" style="background-color: #111827;">
+            <div style="background-color: #374151;"></div>
+            <div style="background-color: #1F2937;"></div>
+          </div>
+          <p>Escuro</p>
+        </div>
+
+        <div class="theme-swatch" data-theme="black">
+          <div class="swatch-preview" style="background-color:#282a36;">
+            <div style="background-color:#44475a;"></div>
+            <div style="background-color:#343746;"></div>
+          </div>
+          <p>Black</p>
+        </div>
+
+        <div class="theme-swatch" data-theme="custom">
+          <div class="swatch-preview" style="background-color:#282a36;">
+            <div id="custom-color-preview-foreground" style="background-color:#F0F0F0;"></div>
+            <div id="custom-color-preview-background" style="background-color:#FAFAFA;"></div>
+          </div>
+          <p>Personalizado</p>
+        </div>
+      </div>
+
+      <div class="customizer-section-title">Cores Personalizadas</div>
+      <div id="customizer-grid" class="customizer-grid"></div>
+    </div>
+  </div>
+
+  <div id="html-editor-modal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Editor de Código HTML</h2>
+        <button class="close-modal-btn">×</button>
+      </div>
+      <textarea id="html-editor"></textarea>
+      <div class="modal-footer">
+        <button class="close-modal-btn">Cancelar</button>
+        <button id="save-html-btn" class="save-btn">Salvar e Aplicar</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="save-modal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Salvar Currículo</h2>
+        <button class="close-modal-btn">×</button>
+      </div>
+
+      <div class="input-group">
+        <label for="filename-input">Nome do Arquivo</label>
+        <input type="text" id="filename-input" value="curriculo">
+      </div>
+
+      <div class="input-group">
+        <label>Formatos</label>
+        <div class="toggles-group">
+          <div class="toggle-item">
+            <input type="checkbox" id="save-as-pdf" checked>
+            <label for="save-as-pdf">PDF</label>
+          </div>
+          <div class="toggle-item">
+            <input type="checkbox" id="save-as-png">
+            <label for="save-as-png">PNG</label>
+          </div>
+          <div class="toggle-item">
+            <input type="checkbox" id="save-as-html">
+            <label for="save-as-html">HTML</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="close-modal-btn">Cancelar</button>
+        <button id="execute-save-btn" class="save-btn">Salvar</button>
+      </div>
+    </div>
+  </div>
+
+  <template id="template-block-header">
+    <resume-block>
+      <header>
+        <h1 contenteditable="true">Novo Título</h1>
+        <p contenteditable="true">Subtítulo editável...</p>
+      </header>
+    </resume-block>
+  </template>
+
+  <template id="template-block-text">
+    <resume-block>
+      <h2 contenteditable="true">Nova Seção</h2>
+      <p contenteditable="true">Escreva aqui o conteúdo da sua nova seção...</p>
+    </resume-block>
+  </template>
+
+  <template id="template-block-columns">
+    <resume-block>
+      <h2 contenteditable="true">Seção com Duas Colunas</h2>
+      <div class="two-columns">
+        <div class="column" contenteditable="true">
+          <h3>Coluna 1</h3>
+          <p>Conteúdo da coluna 1...</p>
+        </div>
+        <div class="column" contenteditable="true">
+          <h3>Coluna 2</h3>
+          <p>Conteúdo da coluna 2...</p>
+        </div>
+      </div>
+    </resume-block>
+  </template>
+</body>
+</html>
