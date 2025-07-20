@@ -1,35 +1,83 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <meta name="color-scheme" content="light dark">
-
+  <meta name="description" content="Editor de Currículo Modular em HTML, CSS e JS. Crie, edite e personalize seu currículo online. Exportação para PDF, PNG e HTML.">
+  <meta name="keywords" content="currículo, editor de currículo, HTML, CSS, JavaScript, exportar PDF, exportar PNG, exportar HTML, personalização de tema, currículo online, SPA, single page application">
+  <meta name="author" content="Gabriel Maia @gabrielmsilva00">
   <title>Editor de Currículo</title>
-
   <script src="https://unpkg.com/html2canvas@latest/dist/html2canvas.min.js"></script>
   <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
-  <script src="script.js" defer></script>
-
+  <script src="script.js" type="module"></script>
+  <script defer>
+    document.addEventListener('DOMContentLoaded', () => {
+      import('./script.js').then(module => {
+        module.initApp();
+        module.hookActions();
+      });
+    });
+  </script>
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body class="theme-light">
   <aside id="sidebar">
-    <div class="logo" title="Personalizar Tema">MV</div>
+    <button id="logo-btn" class="logo" title="Informações do Projeto">
+      <svg width="42" height="42" viewBox="0 0 42 42" aria-label="MV Logo" style="display:block;">
+        <rect x="1" y="1" width="40" height="40" rx="12" ry="12" fill="currentColor" />
+        <text x="0" y="29" font-size="24" font-family="Segoe UI, Arial" font-weight="bold" letter-spacing="0" fill="white">MV</text>
+      </svg>
+    </button>
     <ul id="sidebar-actions" class="sidebar-actions">
-      <!--JS-->
+      <li>
+        <button title="Salvar" data-action="openSaveMenu">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+          </svg>
+        </button>
+      </li>
+      <li>
+        <button title="Personalizar Aparência" data-action="customizeTheme">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
+          </svg>
+        </button>
+      </li>
+      <li>
+        <button title="Editor de HTML" data-action="editHtml">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5" />
+          </svg>
+        </button>
+      </li>
     </ul>
   </aside>
-
   <header id="mobile-header">
-    <div class="logo">MV</div>
+    <button id="mobile-logo-btn" class="logo" title="Informações do Projeto">
+      <svg width="38" height="38" viewBox="0 0 42 42" aria-label="MV Logo" style="display:block;">
+        <rect width="42" height="42" rx="8" fill="currentColor" opacity="0.05" />
+        <text x="10" y="30" font-size="26" font-family="Segoe UI, Arial" font-weight="bold" letter-spacing="1" fill="currentColor">MV</text>
+      </svg>
+    </button>
     <div id="mobile-actions" class="mobile-actions">
-      <!--JS-->
+      <button title="Salvar" data-action="openSaveMenu">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+        </svg>
+      </button>
+      <button title="Personalizar Aparência" data-action="customizeTheme">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
+        </svg>
+      </button>
+      <button title="Editor de HTML" data-action="editHtml">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5" />
+        </svg>
+      </button>
     </div>
   </header>
-
   <main>
     <div id="page-container">
       <div id="page" class="a4-page">
@@ -43,14 +91,12 @@
             </p>
           </header>
         </resume-block>
-
         <resume-block>
           <h2 contenteditable="true">Resumo Profissional</h2>
           <p contenteditable="true">
             Insira aqui um parágrafo conciso que descreve suas principais qualificações, experiências e objetivos de carreira. Destaque o que você pode oferecer à empresa.
           </p>
         </resume-block>
-
         <resume-block>
           <h2 contenteditable="true">Experiência</h2>
           <div class="job" contenteditable="true">
@@ -63,7 +109,6 @@
             </ul>
           </div>
         </resume-block>
-
         <resume-block>
           <h2 contenteditable="true">Formação & Habilidades</h2>
           <div class="two-columns">
@@ -80,31 +125,47 @@
           </div>
         </resume-block>
       </div>
-
       <div id="page-overflow-warning">
         ATENÇÃO! O conteúdo excede o limite da página!
       </div>
     </div>
   </main>
-
   <div id="context-menu" class="menu"></div>
-
   <div id="info-modal" class="modal-overlay">
     <div class="modal-content">
       <div class="modal-header">
-        <h2>Obrigado por usar Seu Vitae!</h2>
-        <button class="close-modal-btn">×</button>
+        <h2>Sobre este Projeto</h2>
+        <button class="close-modal-btn" aria-label="Fechar">×</button>
+      </div>
+      <div class="modal-body">
+        <p>
+          <strong>Meu Vitae:</strong> Editor modular de currículo SPA desenvolvido em HTML, CSS e JS puro.<br>
+          Recursos: exportação PDF/HTML/PNG, edição in-place, personalização avançada.<br>
+          <em>Desenvolvido por Gabriel Maia @gabrielmsilva00</em>
+        </p>
+        <ul>
+          <li>
+            <a href="https://github.com/gabrielmsilva00/MeuVitae" target="_blank" rel="noopener noreferrer">GitHub do Projeto</a>
+          </li>
+          <li>
+            <a href="mailto:gabrielmaia.silva00@gmail.com" target="_blank" rel="noopener noreferrer">Contate o Autor</a>
+          </li>
+        </ul>
+        <hr>
+        <nav class="modal-submenu">
+          <button data-action="openSaveMenu">Salvar <span aria-hidden="true">💾</span></button>
+          <button data-action="customizeTheme">Personalizar Tema <span aria-hidden="true">🎨</span></button>
+          <button data-action="editHtml">Editor HTML <span aria-hidden="true">✍️</span></button>
+        </nav>
       </div>
     </div>
   </div>
-
   <div id="theme-customizer" class="modal-overlay">
     <div class="modal-content">
       <div class="modal-header">
         <h2>Aparência</h2>
         <button class="close-modal-btn">×</button>
       </div>
-
       <div class="customizer-section-title">Temas</div>
       <div class="theme-selector">
         <div class="theme-swatch" data-theme="light">
@@ -114,7 +175,6 @@
           </div>
           <p>Claro</p>
         </div>
-
         <div class="theme-swatch" data-theme="dark">
           <div class="swatch-preview" style="background-color: #111827;">
             <div style="background-color: #374151;"></div>
@@ -122,7 +182,6 @@
           </div>
           <p>Escuro</p>
         </div>
-
         <div class="theme-swatch" data-theme="black">
           <div class="swatch-preview" style="background-color:#282a36;">
             <div style="background-color:#44475a;"></div>
@@ -130,7 +189,6 @@
           </div>
           <p>Black</p>
         </div>
-
         <div class="theme-swatch" data-theme="custom">
           <div class="swatch-preview" style="background-color:#282a36;">
             <div id="custom-color-preview-foreground" style="background-color:#F0F0F0;"></div>
@@ -139,12 +197,10 @@
           <p>Personalizado</p>
         </div>
       </div>
-
       <div class="customizer-section-title">Cores Personalizadas</div>
       <div id="customizer-grid" class="customizer-grid"></div>
     </div>
   </div>
-
   <div id="html-editor-modal" class="modal-overlay">
     <div class="modal-content">
       <div class="modal-header">
@@ -158,19 +214,16 @@
       </div>
     </div>
   </div>
-
   <div id="save-modal" class="modal-overlay">
     <div class="modal-content">
       <div class="modal-header">
         <h2>Salvar Currículo</h2>
         <button class="close-modal-btn">×</button>
       </div>
-
       <div class="input-group">
         <label for="filename-input">Nome do Arquivo</label>
         <input type="text" id="filename-input" value="curriculo">
       </div>
-
       <div class="input-group">
         <label>Formatos</label>
         <div class="toggles-group">
@@ -188,14 +241,12 @@
           </div>
         </div>
       </div>
-
       <div class="modal-footer">
         <button class="close-modal-btn">Cancelar</button>
         <button id="execute-save-btn" class="save-btn">Salvar</button>
       </div>
     </div>
   </div>
-
   <template id="template-block-header">
     <resume-block>
       <header>
@@ -204,14 +255,12 @@
       </header>
     </resume-block>
   </template>
-
   <template id="template-block-text">
     <resume-block>
       <h2 contenteditable="true">Nova Seção</h2>
       <p contenteditable="true">Escreva aqui o conteúdo da sua nova seção...</p>
     </resume-block>
   </template>
-
   <template id="template-block-columns">
     <resume-block>
       <h2 contenteditable="true">Seção com Duas Colunas</h2>
