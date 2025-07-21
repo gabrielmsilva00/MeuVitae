@@ -1,3 +1,4 @@
+/*UTILS*/
 const win=window;
 const doc=win.document;
 const $id=(id)=> doc.getElementById(id);
@@ -16,7 +17,7 @@ const extractAllStyles=()=>{
  }
   return result;
 };
-/*ResumeBlock:custom element*/
+/*ResumeBlock*/
 class ResumeBlock extends HTMLElement{
   constructor(){
     super();
@@ -452,9 +453,8 @@ export function initApp(){
         if(actions[a])actions[a]();
      }),
     );
- //HOTKEYS:Intercept Ctrl+S/Ctrl+P(Win)and equivalents(mobile/UI triggers)
+ //Hotkeys
   window.addEventListener('keydown',(e)=>{
-   //Block Ctrl+S or Ctrl+P anywhere,unless in a modal input/textarea
     if(
      (e.ctrlKey||e.metaKey)&&
      (e.key==='s'||e.key==='S'||e.key==='p'||e.key==='P')
@@ -462,12 +462,10 @@ export function initApp(){
       const activeTag=doc.activeElement?.tagName?.toUpperCase();
       if(activeTag!=='INPUT'&&activeTag!=='TEXTAREA'){
         e.preventDefault();
-       //open Save modal
-        actions.openSaveMenu();
-     }
+      }
+      actions.openSaveMenu();
    }
  });
- //Defensive:also listen touch "Salvar"/"Imprimir" menu events,as fallback for mobile browsers
   window.addEventListener('beforeprint',(e)=>{
     e.preventDefault();
     actions.openSaveMenu();
@@ -504,7 +502,14 @@ actions.increaseFont=(target)=> changeFontSize(target,'increase');
 actions.decreaseFont=(target)=> changeFontSize(target,'decrease');
 actions.insertLink=()=>{
   const url=prompt('Digite a URL:','');
-  if(url)doc.execCommand('createLink',false,url);
+  if(!url)doc.execCommand('unlink');
+  else{
+    if(url.startsWith('http://')||url.startsWith('https://')){
+      doc.execCommand('createLink',false,url);
+      return;
+    }
+    else doc.execCommand('createLink',false,'http://'+url);
+  }
 };
 actions.saveAll=async()=>{
   const filename=$id('filename-input')?.value||'curriculo';
