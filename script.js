@@ -358,7 +358,6 @@ export function hookActions(){
   );
   const saveModal=$id('save-modal');
   if(saveModal){
-   //Defensive:always ensure all closes will close modal
     saveModal
       .querySelectorAll('.close-modal-btn')
       .forEach((btn)=>btn.addEventListener('click',()=>saveModal.classList.remove('active')));
