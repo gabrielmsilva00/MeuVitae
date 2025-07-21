@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=0.5, minimum-scale=0.5, maximum-scale=1.0">
   <meta name="color-scheme" content="light dark">
   <meta name="description" content="Editor de Currículo Modular em HTML, CSS e JS. Crie, edite e personalize seu currículo online. Exportação para PDF, PNG e HTML.">
   <meta name="keywords" content="currículo, editor de currículo, HTML, CSS, JavaScript, exportar PDF, exportar PNG, exportar HTML, personalização de tema, currículo online, SPA, single page application">
@@ -25,8 +25,8 @@
   <aside id="sidebar">
     <button id="logo-btn" class="logo" title="Informações do Projeto">
       <svg width="42" height="42" viewBox="0 0 42 42" aria-label="MV Logo" style="display:block;">
-        <rect x="1" y="1" width="40" height="40" rx="12" ry="12" fill="currentColor" />
-        <text x="0" y="29" font-size="24" font-family="Segoe UI, Arial" font-weight="bold" letter-spacing="0" fill="white">MV</text>
+        <rect x="2" y="2" width="38" height="38" rx="12" ry="12" fill="currentColor" />
+        <text x="2" y="29" font-size="24" font-family="Segoe UI, Arial" font-weight="bold" letter-spacing="0" fill="white">MV</text>
       </svg>
     </button>
     <ul id="sidebar-actions" class="sidebar-actions">
@@ -55,9 +55,9 @@
   </aside>
   <header id="mobile-header">
     <button id="mobile-logo-btn" class="logo" title="Informações do Projeto">
-      <svg width="38" height="38" viewBox="0 0 42 42" aria-label="MV Logo" style="display:block;">
-        <rect width="42" height="42" rx="8" fill="currentColor" opacity="0.05" />
-        <text x="10" y="30" font-size="26" font-family="Segoe UI, Arial" font-weight="bold" letter-spacing="1" fill="currentColor">MV</text>
+      <svg width="42" height="42" viewBox="0 0 42 42" aria-label="MV Logo" style="display:block;">
+        <rect x="2" y="2" width="38" height="38" rx="12" ry="12" fill="currentColor" />
+        <text x="2" y="29" font-size="24" font-family="Segoe UI, Arial" font-weight="bold" letter-spacing="0" fill="white">MV</text>
       </svg>
     </button>
     <div id="mobile-actions" class="mobile-actions">
@@ -133,31 +133,42 @@
   <div id="context-menu" class="menu"></div>
   <div id="info-modal" class="modal-overlay">
     <div class="modal-content">
-      <div class="modal-header">
-        <h2>Sobre este Projeto</h2>
+      <header class="modal-header">
+        <h1 style="margin:0 0 0.4em 0; font-size:2.0rem;color:var(--destaque);font-family:'Times New Roman',Times,serif;">
+          Meu Vitae
+        </h1>
         <button class="close-modal-btn" aria-label="Fechar">×</button>
-      </div>
-      <div class="modal-body">
-        <p>
-          <strong>Meu Vitae:</strong> Editor modular de currículo SPA desenvolvido em HTML, CSS e JS puro.<br>
-          Recursos: exportação PDF/HTML/PNG, edição in-place, personalização avançada.<br>
-          <em>Desenvolvido por Gabriel Maia @gabrielmsilva00</em>
+      </header>
+      <section class="modal-body">
+        <h2 style="margin-top:0;font-size:1.18rem;color:var(--texto-de-bloco);">
+          Editor modular de currículo online<br>
+          <span style="font-weight:400;color:var(--texto-comum)">Personalize, edite e exporte com excelência</span>
+        </h2>
+        <hr style="margin:1.4em 0 1.4em 0; border:0;height:1.5px;background:linear-gradient(to right,var(--destaque),transparent);">
+        <p style="font-size:1.01rem;line-height:1.63em;color:var(--texto-comum)">
+          <strong>Recursos</strong>:
+          Exportação para PDF, PNG e HTML.<br>
+          Edição inline, temas dinâmicos, PWA-ready, sem dependências.<br>
+          <strong>Tech:</strong> Vanilla JS, ES2023+, CSS modular, SPA.
         </p>
-        <ul>
+        <h3 style="margin-top:2em;font-size:1rem;color:var(--destaque);">Links úteis</h3>
+        <ul style="margin-bottom: 1.2em; font-size:1rem;">
           <li>
-            <a href="https://github.com/gabrielmsilva00/MeuVitae" target="_blank" rel="noopener noreferrer">GitHub do Projeto</a>
+            <a href="https://github.com/gabrielmsilva00/MeuVitae" target="_blank" rel="noopener">GitHub do Projeto</a>
           </li>
           <li>
-            <a href="mailto:gabrielmaia.silva00@gmail.com" target="_blank" rel="noopener noreferrer">Contate o Autor</a>
+            <a href="mailto:gabrielmaia.silva00@gmail.com" target="_blank" rel="noopener">E-mail do Autor</a>
           </li>
         </ul>
-        <hr>
-        <nav class="modal-submenu">
-          <button data-action="openSaveMenu">Salvar <span aria-hidden="true">💾</span></button>
-          <button data-action="customizeTheme">Personalizar Tema <span aria-hidden="true">🎨</span></button>
-          <button data-action="editHtml">Editor HTML <span aria-hidden="true">✍️</span></button>
+        <nav class="modal-submenu" style="margin-top:2em;display:flex;gap:1rem;justify-content: center;">
+          <button data-action="openSaveMenu" style="font-size:1rem;">Salvar <span>💾</span></button>
+          <button data-action="customizeTheme" style="font-size:1rem;">Tema <span>🎨</span></button>
+          <button data-action="editHtml" style="font-size:1rem;">Editor <span>✍️</span></button>
         </nav>
-      </div>
+        <footer style="margin-top:2.6em;text-align:center;color:var(--texto-comum);font-size:0.93rem">
+          <span><strong>Developed by Gabriel Maia</strong></span>
+        </footer>
+      </section>
     </div>
   </div>
   <div id="theme-customizer" class="modal-overlay">

@@ -204,9 +204,7 @@ resume-block h2 {
   padding-bottom: 0.5rem;
   margin-bottom: 1rem;
 }
-resume-block p,
-resume-block ul,
-resume-block li {
+resume-block p, resume-block ul, resume-block li {
   font-size: 0.9rem;
   line-height: 1.5;
   color: var(--texto-comum);
@@ -319,10 +317,14 @@ resume-block ul {
   justify-content: flex-end;
   gap: 1rem;
 }
-.modal-footer button {
-  padding: 0.5rem 1rem;
+.modal-footer button, .modal-submenu button {
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--destaque);
   border-radius: 6px;
-  border: none;
+  background-color: var(--papel);
+  color: var(--destaque);
+  padding: 0.5rem 1rem;
   cursor: pointer;
   font-size: 0.9rem;
 }
@@ -502,4 +504,67 @@ resume-block ul {
     width: 90%;
     min-width: unset;
   }
+}
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.38);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 400;
+  pointer-events: none;
+  opacity: 0;
+  backdrop-filter: blur(12px) saturate(1.04);
+  transition: opacity 0.35s cubic-bezier(.4, 1, .6, 1), backdrop-filter 0.33s;
+}
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.modal-content {
+  background: var(--papel);
+  padding: 2.2rem 2.3rem 2.2rem 2.3rem;
+  border-radius: 18px;
+  max-width: 560px;
+  box-shadow: 0 14px 52px rgba(0, 0, 0, 0.23), 0 1.5px 4px rgba(0, 0, 0, 0.11);
+  position: relative;
+  transform: translateY(60px) scale(0.98);
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.45s cubic-bezier(.44, 1.5, .56, 1), box-shadow 0.3s;
+}
+.modal-overlay.active .modal-content {
+  opacity: 1;
+  transform: translateY(0) scale(1.00);
+  box-shadow: 0 8px 34px 0 rgba(0, 0, 0, 0.20), 0 2px 12px 0 rgba(0, 0, 0, 0.14);
+}
+@media (max-width: 700px) {
+  .modal-content {
+    max-width: 97vw;
+    padding: 1.1rem;
+  }
+}
+#sidebar .logo svg, #mobile-header .logo svg {
+  display: block;
+}
+#sidebar .logo, #mobile-header .logo {
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: 15px;
+  color: var(--destaque);
+  transition: box-shadow 0.2s;
+}
+#sidebar .logo:focus-visible, #sidebar .logo:hover, #mobile-header .logo:focus-visible, #mobile-header .logo:hover {
+  box-shadow: 0 0 0 2.5px var(--destaque), 0 5px 18px var(--shadow-color);
+  outline: none;
+}
+#sidebar .logo svg text, #mobile-header .logo svg text {
+  font-family: 'Times New Roman', Times, serif;
+  paint-order: stroke fill;
+  font-weight: bold;
+  letter-spacing: -2px;
 }
