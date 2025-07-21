@@ -12,9 +12,9 @@ const extractAllStyles=()=>{
        (sheet.href&&sheet.href.startsWith(location.origin))
       ){
         for(const rule of sheet.cssRules)result+=rule.cssText+'\n';
-     }
-   }catch{}
- }
+      }
+    }catch{}
+  }
   return result;
 };
 /*ResumeBlock*/
@@ -22,7 +22,7 @@ class ResumeBlock extends HTMLElement{
   constructor(){
     super();
     this.#injectControls();
- }
+  }
   #injectControls(){
     const controls=doc.createElement('div');
     controls.className='block-controls';
@@ -34,8 +34,8 @@ class ResumeBlock extends HTMLElement{
     controls.querySelector('.delete-block-btn').onclick=()=>{
       this.remove();
       doc.dispatchEvent(new CustomEvent('content-changed'));
-   };
- }
+    };
+  }
 }
 customElements.define('resume-block',ResumeBlock);
 /*THEME ENGINE*/
@@ -60,12 +60,12 @@ const ThemeEngine=(()=>{
     localStorage.setItem('resume-theme',theme);
     updateSwatch(theme);
     if(theme==='custom')applyCustomColors();
- }
+  }
   function updateSwatch(theme){
     document
       .querySelectorAll('.theme-swatch')
       .forEach((sw)=>sw.classList.toggle('active',sw.dataset.theme===theme));
- }
+  }
   function load(){
     const savedTheme=localStorage.getItem('resume-theme');
     const savedColors=$json(localStorage.getItem('resume-custom-colors'))||{};
@@ -75,22 +75,22 @@ const ThemeEngine=(()=>{
       savedTheme||
        (window.matchMedia('(prefers-color-scheme:dark)').matches?'dark' :'light'),
     );
- }
+  }
   function setColorsOnRoot(){
     for(const key of THEME_KEYS){
       doc.documentElement.style.setProperty(key,customColors[key]);
-   }
+    }
     try{
       $id('custom-color-preview-foreground').style.backgroundColor =
         customColors['--custom-texto-de-bloco'];
       $id('custom-color-preview-background').style.backgroundColor =
         customColors['--custom-borda'];
-   }catch{}
- }
+    }catch{}
+  }
   function applyCustomColors(){
     setColorsOnRoot();
     localStorage.setItem('resume-custom-colors',JSON.stringify(customColors));
- }
+  }
   function onCustomizerInput(e){
     const{key,textInputKey}=e.target.dataset;
     if(e.target.type==='color'&&textInputKey&&THEME_KEYS.includes(textInputKey)){
@@ -99,7 +99,7 @@ const ThemeEngine=(()=>{
       customColors[textInputKey]=e.target.value;
       applyCustomColors();
       setTheme('custom');
-   }else if(
+    }else if(
       e.target.type==='text'&&
       key&&
       THEME_KEYS.includes(key)
@@ -112,9 +112,9 @@ const ThemeEngine=(()=>{
         customColors[key]=e.target.value;
         applyCustomColors();
         setTheme('custom');
-     }
-   }
- }
+      }
+    }
+  }
   function openCustomizer(){
     const grid=$id('customizer-grid');
     grid.innerHTML=THEME_KEYS.map(
@@ -129,7 +129,7 @@ const ThemeEngine=(()=>{
     grid.removeEventListener('input',onCustomizerInput);
     grid.addEventListener('input',onCustomizerInput);
     $id('theme-customizer').classList.add('active');
- }
+  }
   return{
     init(){
       load();
@@ -143,9 +143,9 @@ const ThemeEngine=(()=>{
             $id('theme-customizer').classList.remove('active'),
           ),
         );
-   },
+    },
     open:openCustomizer,
- };
+  };
 })();
 /*ACTIONS API*/
 export const actions=Object.create(null);
@@ -170,7 +170,7 @@ async function exportPdf(filename){
       pdf.setFont('times','normal');
       pdf.setTextColor(styles.color);
       pdf.text('',x+fontSizeInPt*0.35,y);
-   }
+    }
     const segments=[];
     Array.from(el.childNodes).forEach((child)=>{
       if(child.textContent){
@@ -179,9 +179,9 @@ async function exportPdf(filename){
           styles:win.getComputedStyle(child.nodeType===1?child :el),
           isLink:child.nodeType===1&&child.tagName==='A',
           href:child.nodeType===1?child.href :null,
-       });
-     }
-   });
+        });
+      }
+    });
     let currentLine=[];
     let currentLineWidth=0;
     const lines=[];
@@ -199,12 +199,12 @@ async function exportPdf(filename){
           lines.push({segments:currentLine,width:currentLineWidth});
           currentLine=[{...segment,text:word}];
           currentLineWidth=wordWidth;
-       }else{
+        }else{
           currentLine.push({...segment,text:word});
           currentLineWidth+=(currentLine.length>1?spaceWidth:0)+wordWidth;
-       }
-     });
-   });
+        }
+      });
+    });
     if(currentLine.length>0)lines.push({segments:currentLine,width:currentLineWidth});
     let align=styles.textAlign;
     if(align==='start')align='left';
@@ -223,14 +223,14 @@ async function exportPdf(filename){
         pdf.setTextColor(segment.styles.color);
         if(segment.isLink){
           pdf.textWithLink(segment.text,currentX,lineY,{url:segment.href});
-       }else{
+        }else{
           pdf.text(segment.text,currentX,lineY);
-       }
+        }
         currentX+=pdf.getStringUnitWidth(segment.text)*segmentFontSize/pdf.internal.scaleFactor;
         if(segIndex < line.segments.length-1)currentX+=spaceWidth;
-     });
-   });
- };
+      });
+    });
+  };
   sourceElement.querySelectorAll('h1,h2,h3,p,li').forEach(renderElement);
   sourceElement.querySelectorAll('header,h2').forEach((el)=>{
     const styles=win.getComputedStyle(el);
@@ -242,8 +242,8 @@ async function exportPdf(filename){
       pdf.setDrawColor(styles.borderBottomColor);
       pdf.setLineWidth(parseFloat(styles.borderBottomWidth)*scale);
       pdf.line(x,borderY,x+w,borderY);
-   }
- });
+    }
+  });
   pdf.save(`${filename}.pdf`);
 };
 function exportHtml(filename){
@@ -268,11 +268,11 @@ async function exportPng(filename){
     a.href=canvas.toDataURL('image/png');
     a.download=`${filename}.png`;
     a.click();
- }finally{
+  }finally{
     $id('page')
       .querySelectorAll('.block-controls')
       .forEach((c)=>(c.style.visibility='visible'));
- }
+  }
 }
 export const exporter={pdf:exportPdf,html:exportHtml,png:exportPng};
 /*TEMPLATING*/
@@ -290,7 +290,7 @@ export function changeFontSize(block,dir){
       const cur=parseFloat(getComputedStyle(el).fontSize);
       const next=dir==='increase'?cur+1 :Math.max(8,cur-1);
       el.style.fontSize=`${next}px`;
-   });
+    });
   doc.dispatchEvent(new CustomEvent('content-changed'));
 }
 /*CTX MENU*/
@@ -320,17 +320,17 @@ function openContextMenu(e){
   for(const item of items){
     if(item.type==='separator'){
       contextMenu.insertAdjacentHTML('beforeend','<div class="menu-separator"></div>');
-   }else{
+    }else{
       const btn=doc.createElement('button');
       btn.className='menu-item';
       btn.textContent=item.label;
       btn.onclick=()=>{
         if(actions[item.action])actions[item.action](contextMenuTarget);
         contextMenu.classList.remove('active');
-     };
+      };
       contextMenu.appendChild(btn);
-   }
- }
+    }
+  }
   const{clientX:x,clientY:y}=e;
   const menuW=contextMenu.offsetWidth,
     menuH=contextMenu.offsetHeight;
@@ -348,13 +348,13 @@ export function hookActions(){
     if(!btn)return;
     const act=btn.dataset.action;
     if(act&&actions[act])actions[act](contextMenuTarget);
- });
+  });
   doc.querySelectorAll('.modal-overlay .close-modal-btn').forEach((el)=>
     el.addEventListener('click',function handler(ev){
       ev.preventDefault();
       let overlay=el.closest('.modal-overlay');
       if(overlay)overlay.classList.remove('active');
-   }),
+    }),
   );
   const saveModal=$id('save-modal');
   if(saveModal){
@@ -364,7 +364,7 @@ export function hookActions(){
    //Ensure EXECUTE triggers saveAll handler
     const execBtn=$id('execute-save-btn');
     if(execBtn)execBtn.onclick=actions.saveAll;
- }
+  }
   const htmlModal=$id('html-editor-modal');
   if(htmlModal){
     htmlModal
@@ -372,7 +372,7 @@ export function hookActions(){
       .forEach((btn)=>
         btn.addEventListener('click',()=>htmlModal.classList.remove('active')),
       );
- }
+  }
 }
 /*INIT*/
 export function initApp(){
@@ -385,14 +385,14 @@ export function initApp(){
       if(e.target.matches('.drag-handle')){
         dragged=e.target.closest('resume-block');
         setTimeout(()=>dragged.classList.add('dragging'),0);
-     }
-   });
+      }
+    });
     page.addEventListener('dragend',()=>{
       if(dragged){
         dragged.classList.remove('dragging');
         dragged=null;
-     }
-   });
+      }
+    });
     page.addEventListener('dragover',(e)=>{
       e.preventDefault();
       if(!dragged)return;
@@ -401,42 +401,42 @@ export function initApp(){
         const rect=tgt.getBoundingClientRect();
         const after=(e.clientY-rect.top)/rect.height>0.5;
         page.insertBefore(dragged,after?tgt.nextSibling :tgt);
-     }
-   });
- })();
+      }
+    });
+  })();
  //Content Overflow
  (()=>{
     const warning=$id('page-overflow-warning');
     const page=$id('page');
     function overflowing(){
       return page.scrollHeight>page.clientHeight+2;
-   }
+    }
     function notify(){
       warning.style.display='block';
       warning.style.opacity='1';
       setTimeout(()=>(warning.style.opacity='0'),1800);
-   }
+    }
     function revertInput(e){
       if(overflowing()){
         e.preventDefault();
         doc.execCommand('undo');
         notify();
-     }
-   }
+      }
+    }
     page.addEventListener('input',revertInput,true);
     doc.addEventListener('content-changed',()=>{
       if(overflowing()){
         doc.execCommand('undo');
         notify();
-     }
-   });
- })();
+      }
+    });
+  })();
  //Logo & Info Modal
   for(const id of ['logo-btn','mobile-logo-btn']){
     const btn=$id(id);
     if(!btn)continue;
     btn.addEventListener('click',()=>$id('info-modal').classList.add('active'));
- }
+  }
   $id('info-modal')
     ?.querySelectorAll('.close-modal-btn')
     .forEach((x)=>
@@ -450,7 +450,7 @@ export function initApp(){
         $id('info-modal').classList.remove('active');
         const a=btn.dataset.action;
         if(actions[a])actions[a]();
-     }),
+      }),
     );
  //Hotkeys
   window.addEventListener('keydown',(e)=>{
@@ -461,15 +461,15 @@ export function initApp(){
       const activeTag=doc.activeElement?.tagName?.toUpperCase();
       if(activeTag!=='INPUT'&&activeTag!=='TEXTAREA'){
         e.preventDefault();
-      }
+       }
       actions.openSaveMenu();
-   }
- });
+    }
+  });
   window.addEventListener('beforeprint',(e)=>{
     e.preventDefault();
     actions.openSaveMenu();
     return false;
- });
+  });
 }
 /*ACTIONS*/
 actions.openSaveMenu=()=>{
@@ -491,8 +491,8 @@ actions.editHtml=()=>{
       $id('page').innerHTML=$id('html-editor').value;
       doc.dispatchEvent(new CustomEvent('content-changed'));
       htmlModal.classList.remove('active');
-   }
- };
+    }
+  };
 };
 actions.addHeader=()=>addBlock('template-block-header');
 actions.addText=()=>addBlock('template-block-text');
