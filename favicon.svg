@@ -1,0 +1,27 @@
+<svg
+width="42"
+height="42"
+viewBox="0 0 42 42"
+aria-label="MV Logo"
+style="display:block;"
+xmlns="http://www.w3.org/2000/svg"
+>
+<rect
+x="2"
+y="2"
+width="38"
+height="38"
+rx="12"
+ry="12"
+fill="currentColor"
+/>
+<text
+x="2"
+y="29"
+font-size="22"
+font-family="Times New Roman,Times,serif"
+font-weight="bold"
+letter-spacing="0"
+fill="white"
+>MV</text>
+</svg>
