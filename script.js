@@ -1,7 +1,7 @@
 /*UTILS*/
 const win=window;
 const doc=win.document;
-const $id=(id)=> doc.getElementById(id);
+const $id=(id)=>doc.getElementById(id);
 const $json=(src)=>{try{return JSON.parse(src);}catch{return null;}};
 const extractAllStyles=()=>{
   let result='';
@@ -64,7 +64,7 @@ const ThemeEngine=(()=>{
   function updateSwatch(theme){
     document
       .querySelectorAll('.theme-swatch')
-      .forEach((sw)=> sw.classList.toggle('active',sw.dataset.theme===theme));
+      .forEach((sw)=>sw.classList.toggle('active',sw.dataset.theme===theme));
  }
   function load(){
     const savedTheme=localStorage.getItem('resume-theme');
@@ -118,7 +118,7 @@ const ThemeEngine=(()=>{
   function openCustomizer(){
     const grid=$id('customizer-grid');
     grid.innerHTML=THEME_KEYS.map(
-     (k)=> `
+     (k)=>`
         <div class="color-picker-wrapper">
           <label>${k.replace('--custom-','').replace(/-/g,' ')}</label>
           <input type="text"data-key="${k}"value="${customColors[k]}"maxlength="7">
@@ -135,7 +135,7 @@ const ThemeEngine=(()=>{
       load();
       document
         .querySelectorAll('.theme-swatch')
-        .forEach((sw)=> sw.addEventListener('click',()=> setTheme(sw.dataset.theme)));
+        .forEach((sw)=>sw.addEventListener('click',()=>setTheme(sw.dataset.theme)));
       document
         .querySelectorAll('#theme-customizer .close-modal-btn')
         .forEach((el)=>
@@ -248,8 +248,8 @@ async function exportPdf(filename){
 };
 function exportHtml(filename){
   const page=$id('page').cloneNode(true);
-  page.querySelectorAll('.block-controls').forEach((e)=> e.remove());
-  page.querySelectorAll('[contenteditable]').forEach((e)=> e.removeAttribute('contenteditable'));
+  page.querySelectorAll('.block-controls').forEach((e)=>e.remove());
+  page.querySelectorAll('[contenteditable]').forEach((e)=>e.removeAttribute('contenteditable'));
   const html=`<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>${filename}</title><style>${extractAllStyles()}</style></head><body>${page.outerHTML}</body></html>`;
   const blob=new Blob([html],{type:'text/html'});
   const a=doc.createElement('a');
@@ -361,7 +361,7 @@ export function hookActions(){
    //Defensive:always ensure all closes will close modal
     saveModal
       .querySelectorAll('.close-modal-btn')
-      .forEach((btn)=> btn.addEventListener('click',()=> saveModal.classList.remove('active')));
+      .forEach((btn)=>btn.addEventListener('click',()=>saveModal.classList.remove('active')));
    //Ensure EXECUTE triggers saveAll handler
     const execBtn=$id('execute-save-btn');
     if(execBtn)execBtn.onclick=actions.saveAll;
@@ -371,7 +371,7 @@ export function hookActions(){
     htmlModal
       .querySelectorAll('.close-modal-btn')
       .forEach((btn)=>
-        btn.addEventListener('click',()=> htmlModal.classList.remove('active')),
+        btn.addEventListener('click',()=>htmlModal.classList.remove('active')),
       );
  }
 }
@@ -385,7 +385,7 @@ export function initApp(){
     page.addEventListener('dragstart',(e)=>{
       if(e.target.matches('.drag-handle')){
         dragged=e.target.closest('resume-block');
-        setTimeout(()=> dragged.classList.add('dragging'),0);
+        setTimeout(()=>dragged.classList.add('dragging'),0);
      }
    });
     page.addEventListener('dragend',()=>{
@@ -436,12 +436,12 @@ export function initApp(){
   for(const id of ['logo-btn','mobile-logo-btn']){
     const btn=$id(id);
     if(!btn)continue;
-    btn.addEventListener('click',()=> $id('info-modal').classList.add('active'));
+    btn.addEventListener('click',()=>$id('info-modal').classList.add('active'));
  }
   $id('info-modal')
     ?.querySelectorAll('.close-modal-btn')
     .forEach((x)=>
-      x.addEventListener('click',()=> $id('info-modal').classList.remove('active')),
+      x.addEventListener('click',()=>$id('info-modal').classList.remove('active')),
     );
   $id('info-modal')
     ?.querySelectorAll('button[data-action]')
@@ -477,7 +477,7 @@ actions.openSaveMenu=()=>{
   const saveModal=$id('save-modal');
   if(saveModal)saveModal.classList.add('active');
 };
-actions.customizeTheme=()=> ThemeEngine.open();
+actions.customizeTheme=()=>ThemeEngine.open();
 actions.editHtml=()=>{
   const htmlModal=$id('html-editor-modal');
   $id('html-editor').value=$id('page').innerHTML.replace(/></g,'>\n<');
@@ -485,7 +485,7 @@ actions.editHtml=()=>{
   htmlModal
     .querySelectorAll('.close-modal-btn')
     .forEach((btn)=>
-      btn.addEventListener('click',()=> htmlModal.classList.remove('active')),
+      btn.addEventListener('click',()=>htmlModal.classList.remove('active')),
     );
   $id('save-html-btn').onclick=()=>{
     if(confirm('Salvar o HTML diretamente pode quebrar funcionalidades. Prosseguir?')){
@@ -495,11 +495,11 @@ actions.editHtml=()=>{
    }
  };
 };
-actions.addHeader=()=> addBlock('template-block-header');
-actions.addText=()=> addBlock('template-block-text');
-actions.addColumns=()=> addBlock('template-block-columns');
-actions.increaseFont=(target)=> changeFontSize(target,'increase');
-actions.decreaseFont=(target)=> changeFontSize(target,'decrease');
+actions.addHeader=()=>addBlock('template-block-header');
+actions.addText=()=>addBlock('template-block-text');
+actions.addColumns=()=>addBlock('template-block-columns');
+actions.increaseFont=(target)=>changeFontSize(target,'increase');
+actions.decreaseFont=(target)=>changeFontSize(target,'decrease');
 actions.insertLink=()=>{
   const url=prompt('Digite a URL:','');
   if(!url)doc.execCommand('unlink');
